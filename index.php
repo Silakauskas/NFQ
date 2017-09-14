@@ -9,16 +9,6 @@
 <body>
     <div class="container">
         <?php require ('includes/navigation.php'); ?>
-        <!-- 
-        <div class="row nav">
-            <div class="col-md-3">
-                <a href="#">ORDER FORM</a>
-            </div>
-            <div class="col-md-2">
-                <a href="#">ORDERS</a>
-            </div>
-        </div> 
-        -->
         <div>
             <img class="img-responsive" src="img/sunset.jpg" alt="img of a product">
         </div>
