@@ -50,13 +50,13 @@
             /* reikia duomenu patikrinimo bent kazkokio */
 
             $.ajax({
-                url: "add_order.php",
-                //dataType: 'JSON',
+                url: "db.php",
                 type: "post",
                 data: {
                     'name' : name,
                     'email' : email,
                     'message' : message,
+                    'adding' : true,
                 },
                 success: function() {
                     $('#result').text('ORDER SUCCES'); 

@@ -12,7 +12,7 @@ if (isset($_POST)){
     } else {
         echo "Success connecting to DB.";
         $sql = "INSERT INTO orders (name, email, message) VALUES ('$name', '$email', '$text')";
-        @mysqli_query($connect, $sql);
+        mysqli_query($connect, $sql);
         header("Location: index.php");
     }
         var_dump($_POST);
