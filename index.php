@@ -10,7 +10,7 @@
     <div class="container">
         <?php require ('includes/navigation.php'); ?>
         <div>
-            <img class="img-responsive" src="img/sunset.jpg" alt="img of a product">
+            <img class="img-responsive" src="img/sunset.jpg" alt="this could be a slideshow">
         </div>
         <div class="main about">
             <h2><i class="fa fa-lightbulb-o"></i> About this product</h2>
@@ -26,12 +26,26 @@
         </div>
         <div class="main order">
             <h2><i class="fa fa-pencil-square-o"></i> Order form</h2>
-            <form method="post">
-                <input class="inbox" id="name" type="text" name="name" placeholder="Name"><br>
-                <input class="inbox" id="email" type="email" name="email" placeholder="Email"><br>
-                <input class="inbox" id="message" type="text" name="message" placeholder="Message"><br><br>
-                <input type="button" class="btn btn-primary" id="order" value="Order">
-                <!-- <input type="submit" class="btn btn-primary center-block"> -->
+            <form method="post" id="form-order">
+                <div class="row">
+                    <div class="col-md-4">
+                        <input class="inbox" id="name" name="name" placeholder="Name" ><br>
+                        <input class="inbox" id="email" name="email" placeholder="Email" ><br>
+                        <input class="inbox" id="message" name="message" placeholder="Message (optional)"><br>
+                        <input class="inbox" id="quantity" type="number" name="quantity" placeholder="Quantity" ><br>
+                    </div>
+                    <div class="col-md-2">
+                        <select id="color" class="inbox">
+                            <option value="red">Red</option>
+                            <option value="green">Green</option>
+                            <option value="blue">Blue</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <img class="img-responsive" id="img-product" src="img/placeholder-red.png" alt="product">
+                    </div>               
+                </div>
+            <br><input type="button" class="btn btn-primary" id="order" value="Order">
             </form>
             <div id="result">
             </div>
@@ -40,14 +54,35 @@
 
     </div>
     <script>
+
     jQuery(function(){
+        $("#color").change(function(){
+            var color = $(this).val();
+            $("#img-product").attr("src", "img/placeholder-"+color+".png");
+        })
+
         /* paslepti graziai visa forma, pranesti apie sekminga uzsakyma */
         $("#order").on("click",function(){
             var name = $("#name").val();
             var email = $("#email").val();
             var message = $("#message").val();
+            var color = $("#color").val();
+            var qty = $("#quantity").val();
+            console.log(qty);
             
             /* reikia duomenu patikrinimo bent kazkokio */
+            if (name.length == 0){
+                alert("Please enter your name.")
+                return;
+            }
+            if (email.length < 3 || email.indexOf("@") == -1){
+                alert("Please enter a valid e-mail.")
+                return;
+            }
+            if (qty == "" || qty > 100 || qty < 1){
+                alert("Please enter valid order amount [1-100].")
+                return;
+            }
 
             $.ajax({
                 url: "db.php",
@@ -56,10 +91,12 @@
                     'name' : name,
                     'email' : email,
                     'message' : message,
-                    'adding' : true,
+                    'quantity' : qty,
+                    'color' : color,
+                    'action' : 'add',
                 },
                 success: function() {
-                    $('#result').text('ORDER SUCCES'); 
+                    $("#form-order").text("Order added successfully."); 
                 }
             });
             return false;
