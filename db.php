@@ -1,9 +1,15 @@
 <?php
-    require 'configs.php';
+    //require 'configs.php';
     //$connect = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB);
     //$connect = pg_connect("$DB_HOST $PORT $DB $DB_USER $DB_PASS")
     //$dsn = "pgsql:host=$DB_HOST;port=5432;dbname=$DB;user=$DB_USER;password=$DB_PASS";
     //$connect = new PDO($dsn);
+    $url = parse_url(getenv('mysql://b88a9d55cdd2e3:6387c4fd@eu-cdbr-west-01.cleardb.com/heroku_03dd432fbc620f7?reconnect=true'));
+    $server = $url["host"];
+    $username = $url["user"];
+    $password = $url["pass"];
+    $db = substr($url["path"], 1);
+
     $connect = mysqli_connect($server, $username, $password, $db);
 
     if (isset($_POST['action'])){
@@ -14,10 +20,8 @@
             $color = $_POST['color'];
             $qty = $_POST['quantity'];
             if (!$connect) {            // sita tikriausiai iskelt iskart po connect
-                //die('Could not connect: ' . mysql_error());
-                die("Could not connect to databse.");
+                die('Could not connect: ' . mysql_error());
             } else {
-                echo "<script type='text/javascript'>alert('Prisijungta');</script>";
                 $sql = "INSERT INTO orders (name, email, message, quantity, color) 
                     VALUES ('$name', '$email', '$message', '$qty', '$color')";
                 mysqli_query($connect, $sql);
