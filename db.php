@@ -2,8 +2,9 @@
     require 'configs.php';
     //$connect = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB);
     //$connect = pg_connect("$DB_HOST $PORT $DB $DB_USER $DB_PASS")
-    $dsn = "pgsql:host=$DB_HOST;port=5432;dbname=$DB;user=$DB_USER;password=$DB_PASS";
-    $connect = new PDO($dsn);
+    //$dsn = "pgsql:host=$DB_HOST;port=5432;dbname=$DB;user=$DB_USER;password=$DB_PASS";
+    //$connect = new PDO($dsn);
+    $connect = mysqli_connect($server, $username, $password, $db);
 
     if (isset($_POST['action'])){
         if ($_POST['action'] == 'add'){
@@ -19,9 +20,9 @@
                 echo "<script type='text/javascript'>alert('Prisijungta');</script>";
                 $sql = "INSERT INTO orders (name, email, message, quantity, color) 
                     VALUES ('$name', '$email', '$message', '$qty', '$color')";
-                //mysqli_query($connect, $sql);
+                mysqli_query($connect, $sql);
                 //pg_query($connect, $sql);
-                $connect->query($sql);
+                //$connect->query($sql);
             }
             //var_dump($_POST);
         }
@@ -30,11 +31,11 @@
             $sort = $_POST['sort-by'];
             $how = $_POST['sort-how'];
             $sql = "SELECT * from orders order by $sort $how";
-            //$result = mysqli_query($connect, $sql);
+            $result = mysqli_query($connect, $sql);
             //$result = pg_query($connect, $sql);
-            $result = $connect->query($sql);
-            //$ans = mysqli_fetch_all($result,MYSQLI_ASSOC);
-            $ans = $result->fetchAll();
+            //$result = $connect->query($sql);
+            $ans = mysqli_fetch_all($result,MYSQLI_ASSOC);
+            //$ans = $result->fetchAll();
             echo json_encode($ans);
         }
     }
@@ -42,12 +43,12 @@
     function getOrders() {
         global $connect;
         $sql = "SELECT * FROM orders";
-        //$result = mysqli_query($connect, $sql);
+        $result = mysqli_query($connect, $sql);
         //$result = pg_query($connect, $sql);
-        $result = $connect->query($sql);
-        //$ans = mysqli_fetch_all($result,MYSQLI_ASSOC);
+        //$result = $connect->query($sql);
+        $ans = mysqli_fetch_all($result,MYSQLI_ASSOC);
         //$ans = pg_fetch_all($result);
-        $ans = $result->fetchAll();
+        //$ans = $result->fetchAll();
         return $ans;
     }
 ?>
