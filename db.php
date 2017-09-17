@@ -1,7 +1,7 @@
 <?php
     require 'configs.php';
     //$connect = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB);
-    $connection = pg_connect("$DB_HOST $PORT $DB $DB_USER $DB_PASS")
+    $connect = pg_connect("$DB_HOST $PORT $DB $DB_USER $DB_PASS")
 
     if (isset($_POST['action'])){
         if ($_POST['action'] == 'add'){
@@ -16,7 +16,7 @@
                 $sql = "INSERT INTO orders (name, email, message, quantity, color) 
                     VALUES ('$name', '$email', '$message', '$qty', '$color')";
                 //mysqli_query($connect, $sql);
-                pg_query($connection, $sql);
+                pg_query($connect, $sql);
             }
             //var_dump($_POST);
         }
