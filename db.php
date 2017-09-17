@@ -16,6 +16,7 @@
                 //die('Could not connect: ' . mysql_error());
                 die("Could not connect to databse.");
             } else {
+                echo "<script type='text/javascript'>alert('Prisijungta');</script>";
                 $sql = "INSERT INTO orders (name, email, message, quantity, color) 
                     VALUES ('$name', '$email', '$message', '$qty', '$color')";
                 //mysqli_query($connect, $sql);
