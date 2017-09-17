@@ -4,13 +4,13 @@
     //$connect = pg_connect("$DB_HOST $PORT $DB $DB_USER $DB_PASS")
     //$dsn = "pgsql:host=$DB_HOST;port=5432;dbname=$DB;user=$DB_USER;password=$DB_PASS";
     //$connect = new PDO($dsn);
-    $url = parse_url(getenv('mysql://b88a9d55cdd2e3:6387c4fd@eu-cdbr-west-01.cleardb.com/heroku_03dd432fbc620f7?reconnect=true'));
-    $server = $url["host"];
-    $username = $url["user"];
-    $password = $url["pass"];
-    $db = substr($url["path"], 1);
+    //$url = parse_url(getenv('mysql://b88a9d55cdd2e3:6387c4fd@eu-cdbr-west-01.cleardb.com/heroku_03dd432fbc620f7?reconnect=true'));
+    //$server = $url["host"];
+    //$username = $url["user"];
+    //$password = $url["pass"];
+    //$db = substr($url["path"], 1);
 
-    $connect = mysqli_connect($server, $username, $password, $db);
+    $connect = mysqli_connect("eu-cdbr-west-01.cleardb.com", "b88a9d55cdd2e3", "6387c4fd", "heroku_03dd432fbc620f7");
 
     if (isset($_POST['action'])){
         if ($_POST['action'] == 'add'){
