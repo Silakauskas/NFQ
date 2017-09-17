@@ -1,6 +1,7 @@
 <?php
     require 'configs.php';
-    $connect = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB);
+    //$connect = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB);
+    $connection = pg_connect("$DB_HOST $PORT $DB $DB_USER $DB_PASS")
 
     if (isset($_POST['action'])){
         if ($_POST['action'] == 'add'){
@@ -10,13 +11,12 @@
             $color = $_POST['color'];
             $qty = $_POST['quantity'];
             if (!$connect) {            // sita tikriausiai iskelt iskart po connect
-                die('Could not connect: ' . mysql_error());
+                //die('Could not connect: ' . mysql_error());
             } else {
-                //echo "Success connecting to DB.";
                 $sql = "INSERT INTO orders (name, email, message, quantity, color) 
                     VALUES ('$name', '$email', '$message', '$qty', '$color')";
-                mysqli_query($connect, $sql);
-                //header("Location: index.php");
+                //mysqli_query($connect, $sql);
+                pg_query($connection, $sql);
             }
             //var_dump($_POST);
         }
@@ -25,8 +25,10 @@
             $sort = $_POST['sort-by'];
             $how = $_POST['sort-how'];
             $sql = "SELECT * from orders order by $sort $how";
-            $result = mysqli_query($connect, $sql);
-            $ans = mysqli_fetch_all($result,MYSQLI_ASSOC);
+            //$result = mysqli_query($connect, $sql);
+            $result = pg_query($connect, $sql);
+            //$ans = mysqli_fetch_all($result,MYSQLI_ASSOC);
+            $ans = pg_fetch_all($result);
             echo json_encode($ans);
         }
     }
@@ -34,8 +36,10 @@
     function getOrders() {
         global $connect;
         $sql = "SELECT * FROM orders";
-        $result = mysqli_query($connect, $sql);
-        $ans = mysqli_fetch_all($result,MYSQLI_ASSOC);
+        //$result = mysqli_query($connect, $sql);
+        $result = pg_query($connect, $sql);
+        //$ans = mysqli_fetch_all($result,MYSQLI_ASSOC);
+        $ans = pg_fetch_all($result);
         return $ans;
     }
 ?>
